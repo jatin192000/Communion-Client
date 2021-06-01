@@ -1,0 +1,79 @@
+.profile {
+	display: flex;
+}
+
+.profileRight {
+	flex: 9;
+}
+
+.profileCover {
+	height: 320px;
+	position: relative;
+}
+
+.profileCoverImg {
+	width: 100%;
+	height: 250px;
+	object-fit: cover;
+}
+
+.profileUserImg {
+	width: 150px;
+	height: 150px;
+	border-radius: 50%;
+	object-fit: cover;
+	position: absolute;
+	left: 0;
+	right: 0;
+	margin: auto;
+	top: 150px;
+	border: 1.5px solid rgb(0, 0, 0);
+}
+
+.profileInfo {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.profileInfoName {
+	font-size: 24px;
+}
+
+.profileInfoDesc {
+	font-weight: 300;
+}
+
+.profileRightBottom {
+	display: flex;
+}
+
+.btn-follow {
+	background: #ffffff;
+	border: 2px solid #242323;
+	border-radius: 1000px;
+	padding: 10px 36px;
+	color: #242323;
+	display: inline-block;
+	font: normal bold 15px/1 "Roboto", sans-serif;
+	text-align: center;
+}
+.btn-following {
+	background: #ffd500;
+	border: 2px solid #242323;
+	border-radius: 1000px;
+	padding: 10px 25px;
+	color: #242323;
+	display: inline-block;
+	font: normal bold 15px/1 "Roboto", sans-serif;
+	text-align: center;
+}
+.btn-follow:focus {
+	outline: none;
+	box-shadow: none;
+}
+.btn-following:focus {
+	outline: none;
+	box-shadow: none;
+}
