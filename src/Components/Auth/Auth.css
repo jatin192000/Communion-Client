@@ -1,0 +1,7 @@
+.img-left {
+	width: 45%;
+	background-size: cover;
+}
+button :hover {
+	color: #242323;
+}

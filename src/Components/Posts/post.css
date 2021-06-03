@@ -1,0 +1,99 @@
+.post-icon {
+	width: 15px;
+	height: 15px;
+	margin-right: 2px;
+	cursor: pointer;
+}
+
+.btn-post {
+	background: #ffd512;
+	border: 2px solid #242323;
+	border-radius: 15px;
+	padding: 15px 25px;
+	color: #242323;
+	display: inline-block;
+	font: normal bold 20px/1 "Open Sans", sans-serif;
+	text-align: center;
+}
+
+.post-bar {
+	float: left;
+	width: 100%;
+	background-color: #fff;
+	border: 1px solid #e4e4e4;
+	border-radius: 1rem;
+	margin-bottom: 15px;
+	padding: 20px;
+	padding-bottom: 0px;
+}
+
+.pos-top {
+	float: left;
+	width: 100%;
+	position: relative;
+}
+.post-image {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	object-fit: cover;
+	border: 1px solid rgb(196, 194, 194);
+	float: left;
+}
+.post-username {
+	float: left;
+	margin-left: 15px;
+}
+.post-username h3 {
+	color: #000;
+	font-size: 16px;
+	font-weight: 500;
+}
+.post-username span {
+	color: #b2b2b2;
+	font-size: 12px;
+}
+.post-content {
+	float: left;
+	width: 100%;
+}
+
+.post-content h3 {
+	color: #333;
+	font-size: 16px;
+	font-weight: 600;
+	margin-bottom: 15px;
+}
+.post-content p {
+	color: #666;
+	font-size: 15px;
+	line-height: 24px;
+	margin-bottom: 20px;
+}
+
+.post-bottom {
+	border-top: 1px solid #e5e5e5;
+	float: left;
+	width: 100%;
+}
+ol,
+ul,
+li {
+	list-style: none;
+}
+.votes {
+	float: left;
+}
+.votes li {
+	display: inline-flex;
+	margin-right: 15px;
+}
+
+.votes li p {
+	color: #b2b2b2;
+	font-size: 17px;
+	font-weight: 500;
+	float: left;
+	position: relative;
+	top: -1px;
+}
