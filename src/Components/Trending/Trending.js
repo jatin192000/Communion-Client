@@ -9,6 +9,15 @@ const Trending = () => {
 			setPosts(data.posts);
 		});
 	}, []);
+
+	posts.sort((p1, p2) => {
+		return (
+			p2.upvotes.length -
+			p2.downvotes.length -
+			p1.upvotes.length +
+			p1.downvotes.length
+		);
+	});
 	return (
 		<div className="grid grid-cols-1 gap-6 xl:gap-8">
 			{posts.map((post) => {

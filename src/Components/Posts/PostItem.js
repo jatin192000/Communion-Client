@@ -25,9 +25,6 @@ const PostItem = (props) => {
 		setIsUpvoted(props.upvotes.includes(authContext.user._id));
 	}, [authContext.user._id, props.upvotes]);
 
-	const options = () => {
-		setOption(!option);
-	};
 	useEffect(() => {
 		setIsDownvoted(props.downvotes.includes(authContext.user._id));
 	}, [authContext.user._id, props.downvotes]);
@@ -55,6 +52,7 @@ const PostItem = (props) => {
 		setIsDownvoted(!isDownvoted);
 		setIsUpvoted(false);
 	};
+
 	return (
 		<div className="post-bar px-5">
 			<div className="post-top">
@@ -87,32 +85,34 @@ const PostItem = (props) => {
 								<span>{format(props.createdAt)}</span>
 							</div>
 						</Link>
-						<div className="float-right">
+						<div className="kebab">
 							<BsThreeDotsVertical
-								onClick={options}
+								onClick={() => setOption(!option)}
 								className="text-gray-700"
 							/>
-							{/* <ul
-								className={
-									true ? "optionsOpen active" : "optionsOpen"
-								}
-							>
+							<ul class={option ? "dropdown active" : "dropdown"}>
 								<li>
-									<a href="#" title="edit">
-										Edit
-									</a>
-								</li>
-								<li>
-									<a href="#" title="">
-										Delete
-									</a>
-								</li>
-								<li>
-									<a href="#" title="">
+									<a
+										href="http://www.g.com"
+										className="text-sm"
+									>
 										Report
 									</a>
 								</li>
-							</ul> */}
+								{authContext.user.username ===
+								props.author.username ? (
+									<>
+										<li>
+											<a href="http://www.g.com">Edit</a>
+										</li>
+										<li>
+											<a href="http://www.g.com">
+												Delete
+											</a>
+										</li>
+									</>
+								) : null}
+							</ul>
 						</div>
 					</>
 				)}
