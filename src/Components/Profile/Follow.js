@@ -25,7 +25,7 @@ const Followers = (props) => {
 				setProfile(data.profilePicture);
 			}
 		});
-	}, []);
+	});
 	const Click = async () => {
 		if (authContext.user.username) {
 			try {

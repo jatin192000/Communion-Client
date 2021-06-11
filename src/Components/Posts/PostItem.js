@@ -5,12 +5,11 @@ import { Link } from "react-router-dom";
 import "./post.css";
 import { format } from "timeago.js";
 import { useHistory } from "react-router-dom";
-import { BsThreeDotsVertical } from "react-icons/bs";
+
 const PF = "/Images/";
 
 const PostItem = (props) => {
 	let history = useHistory();
-	const [option, setOption] = useState(false);
 	const [upvote, setUpvote] = useState(props.upvotes.length);
 	const [downvote, setDownvote] = useState(props.downvotes.length);
 	const authContext = useContext(AuthContext);
@@ -28,10 +27,10 @@ const PostItem = (props) => {
 	useEffect(() => {
 		setIsDownvoted(props.downvotes.includes(authContext.user._id));
 	}, [authContext.user._id, props.downvotes]);
-	// const postDelete = () => {
-	// 	PostService.deletePost(props.id);
-	// 	window.location.reload(false);
-	// };
+
+	const postDelete = async () => {
+		await PostService.deletePost(props.id);
+	};
 	const postUpvote = () => {
 		if (authContext.user.username === "") {
 			history.push("/login");
@@ -60,17 +59,24 @@ const PostItem = (props) => {
 					<>
 						<Link to={`/community/${props.community}`}>
 							<img
-								src={`/Images/${props.profilePicture}`}
+								src={`/Images/${props.communityprofilePicture}`}
 								className="post-image"
 								alt="profile-pic"
 							/>
-						</Link>
-						<Link to={`/username/${props.author}`}>
 							<div className="post-username">
-								<h3>{props.author}</h3>
+								<h3>{props.community}</h3>
 								<span>{format(props.createdAt)}</span>
 							</div>
 						</Link>
+
+						<div className="post-username inline-flex">
+							<span className="my-auto">Posted By:</span>
+							<Link to={`/username/${props.author}`}>
+								<p className="ml-1 text-sm font-normal">
+									{props.author}
+								</p>
+							</Link>
+						</div>
 					</>
 				) : (
 					<>
@@ -85,35 +91,6 @@ const PostItem = (props) => {
 								<span>{format(props.createdAt)}</span>
 							</div>
 						</Link>
-						<div className="kebab">
-							<BsThreeDotsVertical
-								onClick={() => setOption(!option)}
-								className="text-gray-700"
-							/>
-							<ul class={option ? "dropdown active" : "dropdown"}>
-								<li>
-									<a
-										href="http://www.g.com"
-										className="text-sm"
-									>
-										Report
-									</a>
-								</li>
-								{authContext.user.username ===
-								props.author.username ? (
-									<>
-										<li>
-											<a href="http://www.g.com">Edit</a>
-										</li>
-										<li>
-											<a href="http://www.g.com">
-												Delete
-											</a>
-										</li>
-									</>
-								) : null}
-							</ul>
-						</div>
 					</>
 				)}
 			</div>
@@ -168,6 +145,16 @@ const PostItem = (props) => {
 							alt=""
 						/>
 					</li>
+					{authContext.user.username === props.author ? (
+						<li>
+							<img
+								className="delete-icon ml-5"
+								src={`${PF}delete.svg`}
+								onClick={postDelete}
+								alt=""
+							/>
+						</li>
+					) : null}
 				</ul>
 			</div>
 		</div>

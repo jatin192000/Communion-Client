@@ -2,6 +2,8 @@ import React, { useState, useContext, useEffect } from "react";
 import AuthService from "../../Services/AuthService";
 import { ToastContainer, toast } from "react-toastify";
 import { AuthContext } from "../../Context/AuthContext";
+import axios from "axios";
+const PF = "/Images/";
 
 const EditProfile = (props) => {
 	const authContext = useContext(AuthContext);
@@ -13,46 +15,11 @@ const EditProfile = (props) => {
 		website: "",
 		location: "",
 	});
-	// const [profilePic, setProfilePic] = useState("");
-	// const [coverPic, setCoverPic] = useState("");
+	const [profilePic, setProfilePic] = useState(
+		authContext.user.profilePicture
+	);
+	const [coverPic, setCoverPic] = useState(authContext.user.coverPicture);
 
-	// const handleProfilePic = (e) => {
-	// 	setProfilePic(e.target.files[0]);
-	// };
-	// console.log(profilePic);
-	// const handleCoverPic = (e) => {
-	// 	setCoverPic(e.target.files[1]);
-	// };
-
-	// const profileUpload = (profilePic) => {
-	// 	const formData = new FormData();
-	// 	formData.append("profile", profilePic);
-	// 	AuthService.uploadProfile(authContext.user._id, formData).then(
-	// 		(data) => {
-	// 			if (!data.success) {
-	// 				toast.error(data.message, {
-	// 					position: "top-right",
-	// 					autoClose: 5000,
-	// 					hideProgressBar: false,
-	// 					closeOnClick: true,
-	// 					pauseOnHover: true,
-	// 					draggable: true,
-	// 					progress: undefined,
-	// 				});
-	// 			} else {
-	// 				toast.success(data.message, {
-	// 					position: "top-right",
-	// 					autoClose: 5000,
-	// 					hideProgressBar: false,
-	// 					closeOnClick: true,
-	// 					pauseOnHover: true,
-	// 					draggable: true,
-	// 					progress: undefined,
-	// 				});
-	// 			}
-	// 		}
-	// 	);
-	// };
 	useEffect(() => {
 		AuthService.get(username).then((data) => {
 			setUser(data);
@@ -72,12 +39,115 @@ const EditProfile = (props) => {
 			}
 		});
 	};
+	const handleProfilePic = (e) => {
+		setProfilePic(e.target.files[0]);
+	};
+
+	const picSubmit = async (e) => {
+		e.preventDefault();
+		if (typeof profilePic === "string") {
+			toast.error("Please Select a file to upload");
+		} else {
+			const formData = new FormData();
+			formData.append("profile", profilePic);
+			const res = await axios.post("/user/uploadProfile", formData, {
+				headers: {
+					"Content-Type": "multipart/form-data",
+				},
+			});
+			if (res.data.success) {
+				toast.success(res.data.message);
+			} else {
+				toast.error(res.data.message);
+			}
+		}
+	};
+	const hiddenProfileInput = React.useRef(null);
+	const onInvisibleProfileInput = (event) => {
+		hiddenProfileInput.current.click();
+	};
+	const handleCoverPic = (e) => {
+		setCoverPic(e.target.files[0]);
+	};
+
+	const coverSubmit = async (e) => {
+		if (typeof coverPic === "string") {
+			toast.error("Please Select a file to upload");
+		} else {
+			const formData1 = new FormData();
+			formData1.append("cover", coverPic);
+			const res = await axios.post("/user/uploadCover", formData1, {
+				headers: {
+					"Content-Type": "multipart/form-data",
+				},
+			});
+
+			if (res.data.success) {
+				toast.success(res.data.message);
+			} else {
+				toast.error(res.data.message);
+			}
+		}
+	};
+
+	const hiddenCoverInput = React.useRef(null);
+
+	const onInvisibleCoverInput = (event) => {
+		hiddenCoverInput.current.click();
+	};
 
 	return (
-		<div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
+		<div className="profile bg-white mb-5">
 			<ToastContainer />
-			<div className="max-w-screen-xl m-0 bg-white shadow sm:rounded-lg flex justify-center flex-1">
-				<div className="lg:w-1/2 xl:w-5/12 p-6">
+			<div className="profileRight">
+				<div className="profileRightTop">
+					<div className="grid grid-cols-1 gap-4">
+						<div className="grid grid-cols-3">
+							<input
+								type="file"
+								name="coverUpload"
+								className="profileUpload"
+								accept=".png, .jpg, .jpeg"
+								onChange={handleCoverPic}
+								ref={hiddenCoverInput}
+							/>
+							<img
+								src={PF + coverPic}
+								className="coverBtn  col-span-2"
+								alt="uploader"
+								onClick={onInvisibleCoverInput}
+							/>
+
+							<button
+								onClick={coverSubmit}
+								className="btn-follow m-auto"
+							>
+								Upload
+							</button>
+						</div>
+						<div className="grid grid-cols-3">
+							<input
+								type="file"
+								name="profileUpload"
+								className="profileUpload"
+								accept=".png, .jpg, .jpeg"
+								onChange={handleProfilePic}
+								ref={hiddenProfileInput}
+							/>
+							<img
+								src={PF + profilePic}
+								className="profileBtn m-auto col-span-2"
+								alt="uploader"
+								onClick={onInvisibleProfileInput}
+							/>
+							<button
+								onClick={picSubmit}
+								className="btn-follow m-auto"
+							>
+								Upload
+							</button>
+						</div>
+					</div>
 					<form
 						className="w-full flex-1 mt-8 text-black"
 						onSubmit={onSubmit}

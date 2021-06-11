@@ -37,7 +37,7 @@ const Profile = () => {
 		PostService.getDashboardPosts(username).then((data) => {
 			setPosts(data.posts);
 		});
-	}, [username]);
+	}, [username, authContext.user._id]);
 	posts.sort((p1, p2) => {
 		return new Date(p2.createdAt) - new Date(p1.createdAt);
 	});
@@ -65,20 +65,12 @@ const Profile = () => {
 						<div className="profileCover">
 							<img
 								className="profileCoverImg"
-								src={
-									user.coverPicture
-										? PF + user.coverPicture
-										: PF + "noCover.png"
-								}
+								src={PF + user.coverPicture}
 								alt=""
 							/>
 							<img
 								className="profileUserImg"
-								src={
-									user.profilePicture
-										? PF + user.profilePicture
-										: PF + "avatar.png"
-								}
+								src={PF + user.profilePicture}
 								alt=""
 							/>
 							<div className="btn">
@@ -116,7 +108,7 @@ const Profile = () => {
 						</div>
 						<div className="grid grid-cols-2 p-3">
 							<div className="grid grid-cols-1">
-								<span className="text-gray-700">
+								<span className="text-gray-700 ml-3">
 									{user.bio}
 								</span>
 								<span className="flex text-gray-700">
@@ -151,15 +143,15 @@ const Profile = () => {
 									) : null}
 								</span>
 							</div>
-							<div className="ml-auto mr-4">
-								<span className="text-gray-700 mr-5">
+							<div className="ml-auto grid grid-cols-3 gap-4 mr-4">
+								<span className="text-gray-700 flex">
 									Posts {posts.length}
 								</span>
 								<Link
 									to={`/user/${username}/followers`}
 									className="hover:underline"
 								>
-									<span className="text-gray-700 mr-5">
+									<span className="text-gray-700">
 										Followers {followersCount}
 									</span>
 								</Link>
@@ -188,6 +180,16 @@ const Profile = () => {
 								upvotes={post.upvotes}
 								downvotes={post.downvotes}
 								author={post.author.username}
+								community={
+									post.community
+										? post.community.username
+										: null
+								}
+								communityprofilePicture={
+									post.community
+										? post.community.profilePicture
+										: null
+								}
 								createdAt={post.createdAt}
 								profilePicture={post.author.profilePicture}
 							/>

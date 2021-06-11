@@ -114,10 +114,10 @@ export default {
 			return res.json().then((data) => data);
 		});
 	},
-	uploadProfile: async (id, data) => {
-		return await fetch(`/user/uploadProfile/${id}`, {
-			method: "put",
-			body: data,
+	uploadProfile: async (data) => {
+		return await fetch(`/user/uploadProfile`, {
+			method: "post",
+			body: JSON.stringify(data),
 			headers: {
 				"Content-Type": "multipart/form-data",
 			},

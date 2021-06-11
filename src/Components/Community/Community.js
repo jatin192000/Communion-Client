@@ -33,7 +33,7 @@ const Community = () => {
 		PostService.getCommunityDashboardPosts(username).then((data) => {
 			setPosts(data.posts);
 		});
-	}, [username]);
+	});
 
 	const followUser = async () => {
 		try {

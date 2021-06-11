@@ -16,7 +16,7 @@ import "react-toastify/dist/ReactToastify.css";
 import EditProfile from "./Components/Profile/EditProfile";
 import ForgotPassword from "./Components/Auth/ForgetPassword";
 import ResetPassword from "./Components/Auth/ResetPassword";
-import CommunityService from "./Services/CommunityService";
+//import CommunityService from "./Services/CommunityService";
 import PageNotFound from "./PageNotFound";
 import Followers from "./Components/Profile/Follow";
 import Following from "./Components/Profile/Following";
@@ -65,11 +65,11 @@ function App() {
 						component={Home}
 					/>
 					<Route exact path="/user/:username" component={Profile} />
-					<Route
+					{/* <Route
 						exact
 						path="/community/:username"
 						component={CommunityService}
-					/>
+					/> */}
 					<Route
 						exact
 						path="/user/:username/followers"
