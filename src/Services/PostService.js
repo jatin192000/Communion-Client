@@ -16,7 +16,7 @@ export default {
 		const response = await fetch(`/post/dashboardCommunity/${username}`);
 		return response.json().then((data) => data);
 	},
-	postPost: async (post) => {
+	createPost: async (post) => {
 		const response = await fetch("/post/create", {
 			method: "post",
 			body: JSON.stringify(post),

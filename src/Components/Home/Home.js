@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { useStateIfMounted } from "use-state-if-mounted";
 import { Link } from "react-router-dom";
 import PostItem from "../Posts/PostItem";
 import PostService from "../../Services/PostService";
+import PostLoader from "../Loaders/PostLoader";
+
 const Home = () => {
-	const [posts, setPosts] = useState([]);
+	const [posts, setPosts] = useStateIfMounted([]);
 	useEffect(() => {
 		PostService.getTimelinePosts().then((data) => {
 			setPosts(data.posts);
@@ -22,8 +25,9 @@ const Home = () => {
 					<span className="mx-auto uppercase">Create Post</span>
 				</button>
 			</Link>
-			{posts
-				? posts.map((post) => {
+			{posts ? (
+				posts.length > 0 ? (
+					posts.map((post) => {
 						return (
 							<PostItem
 								key={post._id}
@@ -33,12 +37,29 @@ const Home = () => {
 								upvotes={post.upvotes}
 								downvotes={post.downvotes}
 								author={post.author.username}
-								profilePicture={post.author.profilePicture}
+								community={
+									post.community
+										? post.community.username
+										: null
+								}
+								communityprofilePicture={
+									post.community
+										? post.community.profilePicture
+										: null
+								}
 								createdAt={post.createdAt}
+								profilePicture={post.author.profilePicture}
 							/>
 						);
-				  })
-				: null}
+					})
+				) : (
+					<p className="m-auto mt-10 text-xl uppercase">
+						No Posts Yet
+					</p>
+				)
+			) : (
+				<PostLoader />
+			)}
 		</div>
 	);
 };

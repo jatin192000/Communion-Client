@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import "./post.css";
 import { format } from "timeago.js";
 import { useHistory } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 const PF = "/Images/";
 
@@ -29,7 +30,13 @@ const PostItem = (props) => {
 	}, [authContext.user._id, props.downvotes]);
 
 	const postDelete = async () => {
-		await PostService.deletePost(props.id);
+		const res = await PostService.deletePost(props.id);
+		if (res.success) {
+			toast.success("Post Deleted Successfully");
+			window.location.reload();
+		} else {
+			toast.error("Could not delete post");
+		}
 	};
 	const postUpvote = () => {
 		if (authContext.user.username === "") {
@@ -53,7 +60,8 @@ const PostItem = (props) => {
 	};
 
 	return (
-		<div className="post-bar px-5">
+		<div className="post-bar">
+			<ToastContainer />
 			<div className="post-top">
 				{props.community ? (
 					<>
@@ -145,7 +153,9 @@ const PostItem = (props) => {
 							alt=""
 						/>
 					</li>
-					{authContext.user.username === props.author ? (
+					{authContext.user.role === "admin" ||
+					props.community ||
+					authContext.user.username === props.author ? (
 						<li>
 							<img
 								className="delete-icon ml-5"

@@ -48,20 +48,20 @@ export default {
 	},
 	get: async (username) => {
 		return await fetch(`/user/username/${username}`).then((res) => {
-			if (res.status === 200) return res.json().then((data) => data);
-			else return {};
+			return res.json().then((data) => data);
+		});
+	},
+	getById: async (id) => {
+		return await fetch(`/user/id/${id}`).then((res) => {
+			return res.json().then((data) => data);
 		});
 	},
 	getProfile: async (id) => {
-		return await fetch(`/user/profile/${id}`).then((res) => {
-			if (res.status === 200) return res.json().then((data) => data);
-			else return {};
-		});
+		return await fetch(`/user/profile/${id}`).then((res) => {});
 	},
-	getFollowers: async (id) => {
-		return await fetch(`/user/followers/${id}`).then((res) => {
-			if (res.status === 200) return res.json().then((data) => data);
-			else return {};
+	getFollowers: async (username) => {
+		return await fetch(`/user/followers/${username}`).then((res) => {
+			return res.json().then((data) => data);
 		});
 	},
 	update: async (userData) => {
@@ -72,14 +72,12 @@ export default {
 				"Content-Type": "application/json",
 			},
 		}).then((res) => {
-			if (res.status === 200) return res.json().then((data) => data);
-			else return {};
+			return res.json().then((data) => data);
 		});
 	},
 	logout: async () => {
 		return await fetch("/user/logout").then((res) => {
-			if (res.status === 200) return res.json().then((data) => data);
-			else return {};
+			return res.json().then((data) => data);
 		});
 	},
 	isAuthenticated: async () => {

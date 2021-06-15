@@ -1,45 +1,63 @@
 import React, { useState, useEffect, useContext } from "react";
 import CommunityService from "../../Services/CommunityService";
-import "./profile.css";
+import "../Profile/profile.css";
 import PostItem from "../Posts/PostItem";
 import PostService from "../../Services/PostService";
 import { useParams } from "react-router";
 import { AuthContext } from "../../Context/AuthContext";
 import { Link } from "react-router-dom";
+import ProfileLoader from "../Loaders/ProfileLoader";
+import PostLoader from "../Loaders/PostLoader";
 const PF = "/Images/";
 
-const Community = () => {
-	const [user, setUser] = useState({});
+const Community = (props) => {
+	const [community, setCommunity] = useState(null);
 	const username = useParams().username;
 	const [posts, setPosts] = useState([]);
 	const [following, setFollowing] = useState(true);
 	const [followersCount, setFollowersCount] = useState(0);
+	const [isadmin, setIsAdmin] = useState(false);
 	const authContext = useContext(AuthContext);
 	useEffect(() => {
 		CommunityService.get(username).then((data) => {
-			console.log(data);
-			setUser(data.communities);
-			setFollowersCount(data.communities.followers.length);
-			if (
-				data.communities.followers !== undefined &&
-				data.communities.followers.includes(authContext.user._id)
-			) {
-				setFollowing(true);
+			if (data.success) {
+				setCommunity(data.community);
+				if (data.community.admin) {
+					const admin = data.community.admin.find(
+						(admin) =>
+							admin["username"] === authContext.user.username
+					);
+					if (admin && admin.username === authContext.user.username) {
+						setIsAdmin(true);
+					}
+				}
+				setFollowersCount(data.community.followers.length);
+				if (
+					data.community.followers !== undefined &&
+					data.community.followers.includes(authContext.user._id)
+				) {
+					setFollowing(true);
+				} else {
+					setFollowing(false);
+				}
 			} else {
-				setFollowing(false);
+				props.history.push("/error");
 			}
 		});
 
 		PostService.getCommunityDashboardPosts(username).then((data) => {
 			setPosts(data.posts);
 		});
-	});
+	}, [username, community, authContext.user, props.history]);
 
-	const followUser = async () => {
+	const followCommunity = async () => {
+		if (!authContext.isAuthenticated) {
+			props.history.push("/");
+		}
 		try {
-			await CommunityService.follow(user._id).then((data) => {
+			await CommunityService.follow(community.username).then((data) => {
 				if (data.success) {
-					if (data.message === "User has been unfollowed") {
+					if (data.message === "Community has been unfollowed") {
 						setFollowing(false);
 					} else {
 						setFollowing(true);
@@ -52,70 +70,97 @@ const Community = () => {
 	};
 
 	return (
-		<>
-			<div className="profile">
-				<div className="profileRight">
-					<div className="profileRightTop">
-						<div className="profileCover">
-							<img
-								className="profileCoverImg"
-								src={
-									user.coverPicture
-										? PF + user.coverPicture
-										: PF + "noCover.png"
-								}
-								alt=""
-							/>
-							<img
-								className="profileUserImg"
-								src={
-									user.profilePicture
-										? PF + user.profilePicture
-										: PF + "avatar.png"
-								}
-								alt=""
-							/>
-							<div className="btn">
-								{authContext.user.username === user.username ? (
-									<Link
-										to={`/user/${username}/editProfile`}
-										className="btn-editprofile"
-									>
-										Edit Profile
-									</Link>
-								) : following ? (
-									<button
-										onClick={followUser}
-										className="btn-following"
-									>
-										Following
-									</button>
-								) : (
-									<button
-										onClick={followUser}
-										className="btn-follow"
-									>
-										Follow
-									</button>
-								)}
+		<div className="gap-4">
+			{community ? (
+				<div className="profile bg-white mb-5">
+					<div className="profileRight">
+						<div className="profileRightTop">
+							<div className="profileCover">
+								<img
+									className="profileCoverImg"
+									src={PF + "communityCover.svg"}
+									alt=""
+								/>
+								<img
+									className="profileUserImg"
+									src={PF + "community.svg"}
+									alt=""
+								/>
+								<div className="btn">
+									{isadmin ? (
+										<Link
+											to={`/community/${username}/editProfile`}
+											className="btn-editprofile"
+										>
+											Edit Profile
+										</Link>
+									) : following ? (
+										<button
+											onClick={followCommunity}
+											className="btn-following"
+										>
+											Following
+										</button>
+									) : (
+										<button
+											onClick={followCommunity}
+											className="btn-follow"
+										>
+											Follow
+										</button>
+									)}
+								</div>
 							</div>
 						</div>
-						<div className="profileInfo">
-							<h4 className="profileInfoName">{user.name}</h4>
-							<span className="profileInfoDesc">
-								@{user.username}
-							</span>
-						</div>
-						<span className="profileInfoDesc">{user.bio}</span>
-						<span className="profileInfoDesc">
-							Followers: {followersCount}
-						</span>
+						<>
+							<div className="profileInfo">
+								<h4 className="profileInfoName">
+									{community.name}
+								</h4>
+								<span className="font-normal text-gray-600">
+									@{community.username}
+								</span>
+							</div>
+							<div className="grid grid-cols-2 p-3">
+								<div className="grid grid-cols-1">
+									<span className="text-gray-700 ml-3">
+										{community.about}
+									</span>
+								</div>
+								<div className="ml-auto grid grid-cols-3 gap-4 mr-4">
+									<span className="text-gray-700 flex">
+										Posts {posts ? posts.length : 0}
+									</span>
+									<Link
+										to={`/community/${username}/followers`}
+										className="hover:underline"
+									>
+										<span className="text-gray-700">
+											Followers {followersCount}
+										</span>
+									</Link>
+								</div>
+							</div>
+						</>
 					</div>
 				</div>
-			</div>
-			<div>
-				{posts
-					? posts.map((post) => {
+			) : (
+				<ProfileLoader />
+			)}
+
+			<div className="grid grid-cols-1 gap-4">
+				{community ? (
+					<Link to={`/community/${community.username}/createPost`}>
+						<button className="mx-auto font-semibold bg-yellow-500 text-dark w-1/3 py-4 rounded-lg flex items-center justify-center focus:shadow-outline focus:outline-none">
+							<span className="mx-auto uppercase">
+								Create Post
+							</span>
+						</button>
+					</Link>
+				) : null}
+				{posts ? (
+					posts.length > 0 ? (
+						posts.map((post) => {
 							return (
 								<PostItem
 									key={post._id}
@@ -124,15 +169,32 @@ const Community = () => {
 									id={post._id}
 									upvotes={post.upvotes}
 									downvotes={post.downvotes}
-									author={post.author}
-									community={post.community}
+									author={post.author.username}
+									community={
+										post.community
+											? post.community.username
+											: null
+									}
+									communityprofilePicture={
+										post.community
+											? post.community.profilePicture
+											: null
+									}
 									createdAt={post.createdAt}
+									profilePicture={post.author.profilePicture}
 								/>
 							);
-					  })
-					: null}
+						})
+					) : (
+						<p className="m-auto mt-10 text-xl uppercase">
+							No Posts Yet
+						</p>
+					)
+				) : (
+					<PostLoader />
+				)}
 			</div>
-		</>
+		</div>
 	);
 };
 

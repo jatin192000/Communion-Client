@@ -1,6 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 import React, { createContext, useState, useEffect } from "react";
 import AuthService from "../Services/AuthService";
+import ThreeDots from "../Components/Loaders/ThreeDots";
 
 export const AuthContext = createContext();
 
@@ -26,7 +27,7 @@ export default ({ children }) => {
 	return (
 		<>
 			{!isLoaded ? (
-				<legend>Loading</legend>
+				<ThreeDots />
 			) : (
 				<AuthContext.Provider
 					value={{

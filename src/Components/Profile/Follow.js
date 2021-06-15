@@ -5,27 +5,26 @@ import "../Posts/post.css";
 import { useHistory } from "react-router-dom";
 import AuthService from "../../Services/AuthService";
 
-const Followers = (props) => {
+const Follow = (props) => {
 	let history = useHistory();
-
+	const [username, setUsername] = useState("");
 	const authContext = useContext(AuthContext);
 	const [profile, setProfile] = useState("");
 	const [following, setFollowing] = useState(false);
 	useEffect(() => {
-		AuthService.get(props.username).then((data) => {
-			if (
-				data.followers !== undefined &&
-				data.followers.includes(authContext.user._id)
-			) {
-				setFollowing(true);
-			} else {
-				setFollowing(false);
-			}
-			if (data.profilePicture) {
-				setProfile(data.profilePicture);
+		AuthService.getById(props.id).then((data) => {
+			if (data.success) {
+				setUsername(data.user.username);
+				if (data.user.followers.includes(authContext.user._id)) {
+					setFollowing(true);
+				} else {
+					setFollowing(false);
+				}
+				setProfile(data.user.profilePicture);
 			}
 		});
-	});
+	}, [authContext.user._id, props.id]);
+
 	const Click = async () => {
 		if (authContext.user.username) {
 			try {
@@ -46,31 +45,30 @@ const Followers = (props) => {
 		}
 	};
 	return (
-		<div className="post-bar mx-auto">
-			<div className="post-top">
-				<Link to={`/user/${props.username}`}>
+		<div className="follow-bar my-auto">
+			<div className="post-top  grid grid-cols-2">
+				<Link to={`/user/${username}`}>
 					<img
 						src={`/Images/${profile}`}
 						className="post-image"
 						alt="profile-pic"
 					/>
-					<div className="post-username">
-						<h3>{props.username}</h3>
+					<div className="post-username mt-2">
+						<h3>{username}</h3>
 					</div>
 				</Link>
-				{!following ? (
-					<button className="btn-follow" onClick={Click}>
+				{username === authContext.user.username ? null : !following ? (
+					<button className="btn-follow max-w-sm" onClick={Click}>
 						Follow
 					</button>
 				) : (
-					<button className="btn-following" onClick={Click}>
+					<button className="btn-following max-w-sm" onClick={Click}>
 						Following
 					</button>
 				)}
 			</div>
-			<div className="post-bottom"></div>
 		</div>
 	);
 };
 
-export default Followers;
+export default Follow;

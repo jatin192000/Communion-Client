@@ -3,12 +3,16 @@ import AuthService from "../../Services/AuthService";
 import { ToastContainer, toast } from "react-toastify";
 import { AuthContext } from "../../Context/AuthContext";
 import axios from "axios";
+import { useParams } from "react-router";
 const PF = "/Images/";
 
 const EditProfile = (props) => {
 	const authContext = useContext(AuthContext);
 	const id = authContext.user._id;
 	const username = authContext.user.username;
+	if (username !== useParams().username) {
+		props.history.push("/");
+	}
 	const [user, setUser] = useState({
 		name: "",
 		bio: "",
@@ -22,9 +26,12 @@ const EditProfile = (props) => {
 
 	useEffect(() => {
 		AuthService.get(username).then((data) => {
-			setUser(data);
+			if (data.success) {
+				setUser(data.user);
+			}
 		});
 	}, [username]);
+
 	const onChange = (e) => {
 		setUser({ ...user, [e.target.name]: e.target.value });
 	};

@@ -8,20 +8,17 @@ import { VscAccount } from "react-icons/vsc";
 import "./Navbar.css";
 
 const Navbar = ({ show }) => {
-	const { isAuthenticated, user, setIsAuthenticated, setUser } =
+	const { isAuthenticated, user, setUser, setIsAuthenticated } =
 		useContext(AuthContext);
 
 	const onClickLogoutHandler = () => {
-		try {
-			AuthService.logout().then((data) => {
-				if (data.success) {
-					setUser(data.user);
-					setIsAuthenticated(false);
-				}
-			});
-		} catch (error) {
-			console.log(error.message);
-		}
+		AuthService.logout().then((data) => {
+			if (data.success) {
+				console.log(setUser);
+				setUser(data.user);
+				setIsAuthenticated(false);
+			}
+		});
 	};
 
 	const unauthenticatedNavBar = () => {

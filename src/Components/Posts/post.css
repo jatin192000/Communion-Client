@@ -27,12 +27,14 @@
 .post-bar {
 	float: left;
 	width: 100%;
+	overflow: hidden;
 	background-color: #fff;
 	border: 1px solid #e4e4e4;
 	border-radius: 1rem;
 	margin-bottom: 15px;
 	padding: 20px;
 	padding-bottom: 0px;
+	word-wrap: break-word;
 }
 
 .pos-top {
@@ -71,6 +73,8 @@
 	font-size: 16px;
 	font-weight: 600;
 	margin-bottom: 15px;
+	display: block;
+	max-height: 400px;
 }
 .post-content p {
 	color: #666;
@@ -104,4 +108,16 @@ li {
 	float: left;
 	position: relative;
 	top: -1px;
+}
+
+.follow-bar {
+	float: left;
+	width: 100%;
+	overflow: hidden;
+	background-color: #fff;
+	border: 1px solid #e4e4e4;
+	border-radius: 1rem;
+	margin-bottom: 15px;
+	padding: 20px;
+	word-wrap: break-word;
 }

@@ -16,10 +16,11 @@ import "react-toastify/dist/ReactToastify.css";
 import EditProfile from "./Components/Profile/EditProfile";
 import ForgotPassword from "./Components/Auth/ForgetPassword";
 import ResetPassword from "./Components/Auth/ResetPassword";
-//import CommunityService from "./Services/CommunityService";
 import PageNotFound from "./PageNotFound";
-import Followers from "./Components/Profile/Follow";
-import Following from "./Components/Profile/Following";
+import Followers from "./Components/Profile/Followers";
+import CreateCommunity from "./Components/Community/CreateCommunity";
+import CreateCommunityPost from "./Components/Community/CreatePost";
+import Community from "./Components/Community/Community";
 
 function useMediaQuery() {
 	const [screenSize, setScreenSize] = useState([0, 0]);
@@ -65,27 +66,38 @@ function App() {
 						component={Home}
 					/>
 					<Route exact path="/user/:username" component={Profile} />
-					{/* <Route
-						exact
-						path="/community/:username"
-						component={CommunityService}
-					/> */}
 					<Route
 						exact
-						path="/user/:username/followers"
+						path="/community/:username"
+						component={Community}
+					/>
+					<PrivateRoute
+						exact
+						path="/createCommunity"
+						component={CreateCommunity}
+					/>
+					<PrivateRoute
+						exact
+						path="/community/:username/createPost"
+						component={CreateCommunityPost}
+						roles={["user", "admin"]}
+					/>
+					<Route
+						exact
+						path="/user/followers/:username"
 						component={Followers}
 					/>
 					<Route
 						exact
-						path="/user/:username/following"
-						component={Following}
+						path="/user/following/:username"
+						component={Followers}
 					/>
-					<Route
+					<UnPrivateRoute
 						exact
 						path="/forgotpassword"
 						component={ForgotPassword}
 					/>
-					<Route
+					<UnPrivateRoute
 						path="/passwordreset/:resetLink"
 						component={ResetPassword}
 					/>

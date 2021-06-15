@@ -1,15 +1,20 @@
 import React, { useState, useContext } from "react";
-import PostService from "../../Services/PostService";
+import CommunityService from "../../Services/CommunityService";
 import { AuthContext } from "../../Context/AuthContext";
 import { ToastContainer, toast } from "react-toastify";
+import { useParams } from "react-router";
 
 const CreatePosts = (props) => {
-	const [post, setPost] = useState({ title: "", body: "" });
+	const [post, setPost] = useState({
+		title: "",
+		body: "",
+		username: useParams().username,
+	});
 	const authContext = useContext(AuthContext);
 
 	const onSubmit = (e) => {
 		e.preventDefault();
-		PostService.createPost(post).then((data) => {
+		CommunityService.createPost(post).then((data) => {
 			resetForm();
 			if (data.message === "Unauthorized") {
 				authContext.setUser({ username: "", role: "" });
@@ -28,7 +33,7 @@ const CreatePosts = (props) => {
 	};
 
 	const resetForm = () => {
-		setPost({ title: "", body: "" });
+		setPost({ ...post, title: "", body: "" });
 	};
 	return (
 		<div className="min-h-screen bg-gray-100 text-gray-900">
