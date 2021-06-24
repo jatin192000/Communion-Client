@@ -21,7 +21,7 @@ header {
 	position: fixed;
 	margin-top: 55px;
 	height: 100%;
-	width: 275px;
+	width: 250px;
 	background: #242323;
 	left: -100%;
 	padding: 0px 30px;
@@ -75,7 +75,7 @@ header svg {
 	.main {
 		display: flex;
 		flex-flow: column;
-		margin-left: 275px;
+		margin-left: 250px;
 		margin-top: 55px;
 		height: 90vh;
 		padding: 10px;

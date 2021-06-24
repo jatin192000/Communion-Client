@@ -21,6 +21,13 @@ import Followers from "./Components/Profile/Followers";
 import CreateCommunity from "./Components/Community/CreateCommunity";
 import CreateCommunityPost from "./Components/Community/CreatePost";
 import Community from "./Components/Community/Community";
+import Posts from "./Components/Posts/Posts";
+import Communities from "./Components/Community/Communities";
+import EditCommunity from "./Components/Community/EditCommunity";
+import CommunityFollowers from "./Components/Community/Followers";
+import Top from "./Components/Community/TopCommunities";
+import Settings from "./Components/Settings/Settings";
+import ChangePassword from "./Components/Settings/ChangePassword";
 
 function useMediaQuery() {
 	const [screenSize, setScreenSize] = useState([0, 0]);
@@ -73,8 +80,33 @@ function App() {
 					/>
 					<PrivateRoute
 						exact
+						roles={["user", "admin"]}
+						path="/community/:username/editProfile"
+						component={EditCommunity}
+					/>
+					<PrivateRoute
+						exact
+						roles={["user", "admin"]}
+						path="/settings"
+						component={Settings}
+					/>
+					<PrivateRoute
+						exact
+						roles={["user", "admin"]}
+						path="/settings/changePassword"
+						component={ChangePassword}
+					/>
+					<PrivateRoute
+						exact
+						roles={["user", "admin"]}
 						path="/createCommunity"
 						component={CreateCommunity}
+					/>
+					<PrivateRoute
+						exact
+						path="/communities"
+						roles={["user", "admin"]}
+						component={Communities}
 					/>
 					<PrivateRoute
 						exact
@@ -82,11 +114,18 @@ function App() {
 						component={CreateCommunityPost}
 						roles={["user", "admin"]}
 					/>
+					<PrivateRoute
+						exact
+						path="/community/:username/followers"
+						component={CommunityFollowers}
+						roles={["user", "admin"]}
+					/>
 					<Route
 						exact
 						path="/user/followers/:username"
 						component={Followers}
 					/>
+					<Route exact path="/post/:id" component={Posts} />
 					<Route
 						exact
 						path="/user/following/:username"
@@ -103,6 +142,7 @@ function App() {
 					/>
 					<Route path="/error" component={PageNotFound} />
 					<Route exact path="/trending" component={Trending} />
+					<Route exact path="/top" component={Top} />
 					<UnPrivateRoute path="/login" component={Login} />
 					<UnPrivateRoute path="/register" component={Register} />
 					<PrivateRoute

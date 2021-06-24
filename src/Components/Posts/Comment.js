@@ -9,7 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 
 const PF = "/Images/";
 
-const PostItem = (props) => {
+const Comment = (props) => {
 	let history = useHistory();
 	const [upvote, setUpvote] = useState(props.upvotes.length);
 	const [downvote, setDownvote] = useState(props.downvotes.length);
@@ -29,30 +29,34 @@ const PostItem = (props) => {
 		setIsDownvoted(props.downvotes.includes(authContext.user._id));
 	}, [authContext.user._id, props.downvotes]);
 
-	const postDelete = async () => {
-		const res = await PostService.deletePost(props.id);
+	const commentDelete = async () => {
+		var data = {
+			id: props.id,
+			c_id: props.c_id,
+		};
+		const res = await PostService.deleteComment(data);
 		if (res.success) {
-			toast.success("Post Deleted Successfully");
+			toast.success("Comment Deleted Successfully");
 			window.location.reload();
 		} else {
-			toast.error("Could not delete post");
+			toast.error("Could not delete Comment");
 		}
 	};
-	const postUpvote = (e) => {
+	const commentUpvote = (e) => {
 		if (authContext.user.username === "") {
 			history.push("/login");
 		}
-		PostService.upvotePost(props.id);
+		PostService.upvoteComment(props.c_id);
 		setUpvote(isUpvoted ? upvote - 1 : upvote + 1);
 		setDownvote(isDownvoted ? downvote - 1 : downvote);
 		setIsUpvoted(!isUpvoted);
 		setIsDownvoted(false);
 	};
-	const postDownvote = (e) => {
+	const commentDownvote = (e) => {
 		if (authContext.user.username === "") {
 			history.push("/login");
 		}
-		PostService.downvotePost(props.id);
+		PostService.downvoteComment(props.c_id);
 		setDownvote(isDownvoted ? downvote - 1 : downvote + 1);
 		setUpvote(isUpvoted ? upvote - 1 : upvote);
 		setIsDownvoted(!isDownvoted);
@@ -60,69 +64,40 @@ const PostItem = (props) => {
 	};
 
 	return (
-		<div className="post-bar">
+		<div className="m-0 grid grid-cols-1">
+			<div className="post-bottom pb-5"></div>
 			<ToastContainer />
-			<Link to={`/post/${props.id}`}>
+			<div className="px-5">
 				<div className="post-top">
-					{props.community ? (
-						<>
-							<Link to={`/community/${props.community}`}>
-								<img
-									src={`/Images/${props.communityprofilePicture}`}
-									className="post-image"
-									alt="profile-pic"
-								/>
-								<div className="post-username">
-									<h3>{props.community}</h3>
-									<span>{format(props.createdAt)}</span>
-								</div>
-							</Link>
-
-							<div className="post-username inline-flex">
-								<span className="my-auto">Posted By:</span>
-								<Link to={`/username/${props.author}`}>
-									<p className="ml-1 text-sm font-normal">
-										{props.author}
-									</p>
-								</Link>
-							</div>
-						</>
-					) : (
-						<>
-							<Link to={`/user/${props.author}`}>
-								<img
-									src={`/Images/${props.profilePicture}`}
-									className="post-image"
-									alt="profile-pic"
-								/>
-								<div className="post-username">
-									<h3>{props.author}</h3>
-									<span>{format(props.createdAt)}</span>
-								</div>
-							</Link>
-						</>
-					)}
+					<Link to={`/user/${props.author}`}>
+						<img
+							src={`/Images/${props.profilePicture}`}
+							className="comment-image"
+							alt="profile-pic"
+						/>
+						<div className="comment-username">
+							<h4>{props.author}</h4>
+							<span>{format(props.createdAt)}</span>
+						</div>
+					</Link>
 				</div>
-				<div className="post-content">
-					<h3>{props.title}</h3>
+				<div className="comment-content">
 					<p>{props.body}</p>
 				</div>
-			</Link>
-			<div className="post-bottom">
-				<ul className="votes">
+				<ul className="comment-votes">
 					<li>
 						{isUpvoted ? (
 							<img
-								className="post-icon"
+								className="comment-icon"
 								src={`${PF}upvote_fill.svg`}
-								onClick={postUpvote}
+								onClick={commentUpvote}
 								alt=""
 							/>
 						) : (
 							<img
-								className="post-icon"
+								className="comment-icon"
 								src={`${PF}upvote_empty.svg`}
-								onClick={postUpvote}
+								onClick={commentUpvote}
 								alt=""
 							/>
 						)}
@@ -133,46 +108,37 @@ const PostItem = (props) => {
 					<li>
 						{isDownvoted ? (
 							<img
-								className="post-icon"
+								className="comment-icon"
 								src={`${PF}downvote_fill.svg`}
-								onClick={postDownvote}
+								onClick={commentDownvote}
 								alt=""
 							/>
 						) : (
 							<img
-								className="post-icon"
+								className="comment-icon"
 								src={`${PF}downvote_empty.svg`}
-								onClick={postDownvote}
+								onClick={commentDownvote}
 								alt=""
 							/>
 						)}
 					</li>
-					<li>
-						<img
-							className="post-icon comment ml-5"
-							src={`${PF}comment.svg`}
-							onClick={null}
-							alt=""
-						/>
-					</li>
 					{authContext.user.role === "admin" ||
-					props.community ||
 					authContext.user.username === props.author ? (
 						<li>
 							<img
-								className="delete-icon ml-5"
+								className="comment-delete-icon ml-5"
 								src={`${PF}delete.svg`}
-								onClick={postDelete}
-								alt=""
+								onClick={commentDelete}
+								alt="delete"
 							/>
 						</li>
 					) : null}
 					<li>
 						<img
-							className="post-icon ml-5"
+							className="comment-icon ml-5"
 							src={`${PF}report.svg`}
-							onClick={postDelete}
-							alt=""
+							//onClick={commentDelete}
+							alt="report"
 						/>
 					</li>
 				</ul>
@@ -181,4 +147,4 @@ const PostItem = (props) => {
 	);
 };
 
-export default PostItem;
+export default Comment;

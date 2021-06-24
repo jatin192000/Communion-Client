@@ -112,6 +112,17 @@ export default {
 			return res.json().then((data) => data);
 		});
 	},
+	changePassword: async (password) => {
+		return await fetch(`/user/updatePassword`, {
+			method: "put",
+			body: JSON.stringify(password),
+			headers: {
+				"Content-Type": "application/json",
+			},
+		}).then((res) => {
+			return res.json().then((data) => data);
+		});
+	},
 	uploadProfile: async (data) => {
 		return await fetch(`/user/uploadProfile`, {
 			method: "post",

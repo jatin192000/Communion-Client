@@ -32,31 +32,13 @@ const Register = (props) => {
 			try {
 				AuthService.register(user).then((data) => {
 					resetForm();
-					if (data.success) {
+					if (!data.success) {
+						toast.error(data.message);
+					} else {
+						toast.success(data.message);
 						timerID = setTimeout(() => {
 							props.history.push("/login");
 						}, 2000);
-					}
-					if (!data.success) {
-						toast.error(data.message, {
-							position: "top-right",
-							autoClose: 5000,
-							hideProgressBar: false,
-							closeOnClick: true,
-							pauseOnHover: true,
-							draggable: true,
-							progress: undefined,
-						});
-					} else {
-						toast.success(data.message, {
-							position: "top-right",
-							autoClose: 5000,
-							hideProgressBar: false,
-							closeOnClick: true,
-							pauseOnHover: true,
-							draggable: true,
-							progress: undefined,
-						});
 					}
 				});
 			} catch (error) {

@@ -1,11 +1,10 @@
-import React, { useEffect } from "react";
-import { useStateIfMounted } from "use-state-if-mounted";
+import React, { useState, useEffect } from "react";
 import PostItem from "../Posts/PostItem";
 import PostService from "../../Services/PostService";
 import PostLoader from "../Loaders/PostLoader";
 
 const Trending = () => {
-	const [posts, setPosts] = useStateIfMounted(null);
+	const [posts, setPosts] = useState(null);
 	useEffect(() => {
 		PostService.getAllPosts().then((data) => {
 			setPosts(data.posts);
@@ -25,7 +24,7 @@ const Trending = () => {
 	return (
 		<div className="grid grid-cols-1 gap-6 xl:gap-8">
 			{posts ? (
-				!(posts === []) ? (
+				posts.length > 0 ? (
 					posts.map((post) => {
 						return (
 							<PostItem

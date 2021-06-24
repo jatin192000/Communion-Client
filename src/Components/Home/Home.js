@@ -1,12 +1,11 @@
-import React, { useEffect } from "react";
-import { useStateIfMounted } from "use-state-if-mounted";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import PostItem from "../Posts/PostItem";
 import PostService from "../../Services/PostService";
 import PostLoader from "../Loaders/PostLoader";
 
 const Home = () => {
-	const [posts, setPosts] = useStateIfMounted([]);
+	const [posts, setPosts] = useState(null);
 	useEffect(() => {
 		PostService.getTimelinePosts().then((data) => {
 			setPosts(data.posts);

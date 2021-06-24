@@ -38,6 +38,16 @@ export default {
 			return res.json().then((data) => data);
 		});
 	},
+	getAll: async () => {
+		return await fetch("/community/all").then((res) => {
+			return res.json().then((data) => data);
+		});
+	},
+	getById: async (id) => {
+		return await fetch(`/community/communityID/${id}`).then((res) => {
+			return res.json().then((data) => data);
+		});
+	},
 	follow: async (username) => {
 		return await fetch(`/community/follow/${username}`, {
 			method: "put",
@@ -47,7 +57,7 @@ export default {
 	},
 	update: async (userData, id) => {
 		return await fetch(`/community/update/${id}`, {
-			method: "post",
+			method: "put",
 			body: JSON.stringify(userData),
 			headers: {
 				"Content-Type": "application/json",

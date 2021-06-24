@@ -78,12 +78,12 @@ const Community = (props) => {
 							<div className="profileCover">
 								<img
 									className="profileCoverImg"
-									src={PF + "communityCover.svg"}
+									src={PF + community.coverPicture}
 									alt=""
 								/>
 								<img
 									className="profileUserImg"
-									src={PF + "community.svg"}
+									src={PF + community.profilePicture}
 									alt=""
 								/>
 								<div className="btn">
@@ -113,7 +113,7 @@ const Community = (props) => {
 							</div>
 						</div>
 						<>
-							<div className="profileInfo">
+							<div className="grid grid-cols-1 justify-items-center">
 								<h4 className="profileInfoName">
 									{community.name}
 								</h4>
@@ -127,18 +127,20 @@ const Community = (props) => {
 										{community.about}
 									</span>
 								</div>
-								<div className="ml-auto grid grid-cols-3 gap-4 mr-4">
+								<div className="ml-auto grid grid-cols-2 gap-4 mr-4">
 									<span className="text-gray-700 flex">
 										Posts {posts ? posts.length : 0}
 									</span>
-									<Link
+									{followersCount > 0 ? <Link
 										to={`/community/${username}/followers`}
 										className="hover:underline"
 									>
 										<span className="text-gray-700">
 											Followers {followersCount}
 										</span>
-									</Link>
+									</Link> : <span className="text-gray-700">
+											Followers {followersCount}
+										</span>}
 								</div>
 							</div>
 						</>
@@ -186,7 +188,7 @@ const Community = (props) => {
 							);
 						})
 					) : (
-						<p className="m-auto mt-10 text-xl uppercase">
+						<p className="m-auto my-10 text-xl uppercase">
 							No Posts Yet
 						</p>
 					)

@@ -121,3 +121,79 @@ li {
 	padding: 20px;
 	word-wrap: break-word;
 }
+
+.comment-bar {
+	float: left;
+	width: 100%;
+	overflow: hidden;
+	background-color: #fff;
+	border: 1px solid #e5e5e5;
+	border-top: 0px;
+	border-radius: 1rem;
+	margin-bottom: 15px;
+	word-wrap: break-word;
+}
+
+.comment-image {
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	object-fit: cover;
+	float: left;
+}
+.comment-username {
+	float: left;
+	margin-left: 15px;
+}
+.comment-username h4 {
+	color: #000;
+	font-size: 12px;
+	font-weight: 500;
+}
+.comment-username span {
+	color: #b2b2b2;
+	font-size: 10px;
+}
+
+.comment-content {
+	float: left;
+	width: 100%;
+}
+
+.comment-content p {
+	color: #666;
+	font-size: 14px;
+	line-height: 24px;
+	margin-bottom: 3px;
+}
+
+.comment-votes {
+	float: left;
+}
+.comment-votes li {
+	display: inline-flex;
+	margin-right: 12px;
+}
+
+.comment-votes li p {
+	color: #b2b2b2;
+	font-size: 14px;
+	font-weight: 500;
+	float: left;
+	position: relative;
+	top: -1px;
+}
+.comment-icon {
+	width: 13px;
+	height: 13px;
+	margin-right: 2px;
+	cursor: pointer;
+	padding: 0px;
+}
+.comment-delete-icon {
+	float: right;
+	height: 14px;
+	margin-right: 2px;
+	cursor: pointer;
+	padding: 0px;
+}

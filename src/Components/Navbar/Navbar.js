@@ -5,6 +5,8 @@ import { AuthContext } from "../../Context/AuthContext";
 import { BsHouseDoor } from "react-icons/bs";
 import { FiTrendingUp } from "react-icons/fi";
 import { VscAccount } from "react-icons/vsc";
+import { GiPodium } from "react-icons/gi";
+import { IoSettingsOutline } from "react-icons/io5";
 import "./Navbar.css";
 
 const Navbar = ({ show }) => {
@@ -14,7 +16,6 @@ const Navbar = ({ show }) => {
 	const onClickLogoutHandler = () => {
 		AuthService.logout().then((data) => {
 			if (data.success) {
-				console.log(setUser);
 				setUser(data.user);
 				setIsAuthenticated(false);
 			}
@@ -31,6 +32,15 @@ const Navbar = ({ show }) => {
 					>
 						<FiTrendingUp className="mt-1 mr-1" />
 						Trending
+					</Link>
+				</li>
+				<li>
+					<Link
+						to="/top"
+						className="flex flex-row place-content-center"
+					>
+						<GiPodium className="mt-1 mr-1" />
+						Top
 					</Link>
 				</li>
 				<li>
@@ -73,11 +83,29 @@ const Navbar = ({ show }) => {
 				</li>
 				<li>
 					<Link
+						to="/top"
+						className="flex flex-row place-content-center"
+					>
+						<GiPodium className="mt-1 mr-1" />
+						Top
+					</Link>
+				</li>
+				<li>
+					<Link
 						to={`/user/${user.username}`}
 						className="flex flex-row place-content-center"
 					>
 						<VscAccount className="mt-1 mr-1" />
 						Profile
+					</Link>
+				</li>
+				<li>
+					<Link
+						to={`/communities`}
+						className="flex flex-row place-content-center"
+					>
+						<VscAccount className="mt-1 mr-1" />
+						Communities
 					</Link>
 				</li>
 				{user.role === "admin" ? (
@@ -90,6 +118,15 @@ const Navbar = ({ show }) => {
 						</Link>
 					</li>
 				) : null}
+				<li>
+					<Link
+						to={`/settings`}
+						className="flex flex-row place-content-center"
+					>
+						<IoSettingsOutline className="mt-1 mr-1" />
+						Settings
+					</Link>
+				</li>
 				<li>
 					<Link
 						onClick={onClickLogoutHandler}
