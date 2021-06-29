@@ -21,7 +21,7 @@ const CommunityList = (props) => {
 	return (
 		<div className="follow-bar my-auto">
 			<div className="post-top  grid grid-cols-2">
-				<Link to={`/community/${username}`}>
+				<Link to={`/settings/community/${username}`}>
 					<img
 						src={`/Images/${profile}`}
 						className="post-image"

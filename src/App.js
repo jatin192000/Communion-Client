@@ -28,6 +28,12 @@ import CommunityFollowers from "./Components/Community/Followers";
 import Top from "./Components/Community/TopCommunities";
 import Settings from "./Components/Settings/Settings";
 import ChangePassword from "./Components/Settings/ChangePassword";
+import SearchBar from "./Components/SearchBar/SearchBar";
+import ChangeEmail from "./Components/Settings/ChangeEmail";
+import SettingsCommunity from "./Components/Settings/Communities";
+import CommunitySettings from "./Components/Settings/CommunitySettings";
+import ChangeModerator from "./Components/Settings/ChangeModerator";
+import ChangeAdmin from "./Components/Settings/ChangeAdmin";
 
 function useMediaQuery() {
 	const [screenSize, setScreenSize] = useState([0, 0]);
@@ -51,13 +57,14 @@ function App() {
 		<Router>
 			<div className="flex">
 				<div className="sidebar">
-					<header>
+					<header className="grid grid-cols-12 p-1 gap-2">
 						{width < 769 ? (
 							<GiHamburgerMenu
-								className="fill-current text-yellow-500"
+								className="fill-current text-yellow-500 m-auto"
 								onClick={() => setShowNav(!showNav)}
 							/>
 						) : null}
+						<SearchBar />
 					</header>
 					{width < 769 ? (
 						<Navbar show={showNav} />
@@ -80,26 +87,57 @@ function App() {
 					/>
 					<PrivateRoute
 						exact
-						roles={["user", "admin"]}
 						path="/community/:username/editProfile"
+						roles={["user", "admin"]}
 						component={EditCommunity}
 					/>
 					<PrivateRoute
 						exact
-						roles={["user", "admin"]}
 						path="/settings"
+						roles={["user", "admin"]}
 						component={Settings}
 					/>
 					<PrivateRoute
 						exact
-						roles={["user", "admin"]}
 						path="/settings/changePassword"
+						roles={["user", "admin"]}
 						component={ChangePassword}
 					/>
 					<PrivateRoute
 						exact
+						path="/settings/changeEmail"
 						roles={["user", "admin"]}
+						component={ChangeEmail}
+					/>
+					<PrivateRoute
+						exact
+						path="/settings/communities"
+						roles={["user", "admin"]}
+						component={SettingsCommunity}
+					/>
+					<PrivateRoute
+						exact
+						path="/settings/community/:username"
+						roles={["user", "admin"]}
+						component={CommunitySettings}
+					/>
+					<PrivateRoute
+						exact
+						path="/settings/community/:username/changeModerator"
+						roles={["user", "admin"]}
+						component={ChangeModerator}
+					/>
+					<PrivateRoute
+						exact
+						path="/settings/community/:username/changeAdmin"
+						roles={["user", "admin"]}
+						component={ChangeAdmin}
+					/>
+					<Route exact path="/search" component={SearchBar} />
+					<PrivateRoute
+						exact
 						path="/createCommunity"
+						roles={["user", "admin"]}
 						component={CreateCommunity}
 					/>
 					<PrivateRoute

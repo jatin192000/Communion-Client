@@ -51,6 +51,11 @@ export default {
 			return res.json().then((data) => data);
 		});
 	},
+	getAll: async () => {
+		return await fetch("/user/all").then((res) => {
+			return res.json().then((data) => data);
+		});
+	},
 	getById: async (id) => {
 		return await fetch(`/user/id/${id}`).then((res) => {
 			return res.json().then((data) => data);
@@ -116,6 +121,17 @@ export default {
 		return await fetch(`/user/updatePassword`, {
 			method: "put",
 			body: JSON.stringify(password),
+			headers: {
+				"Content-Type": "application/json",
+			},
+		}).then((res) => {
+			return res.json().then((data) => data);
+		});
+	},
+	changeEmail: async (data) => {
+		return await fetch(`/user/updateEmail`, {
+			method: "put",
+			body: JSON.stringify(data),
 			headers: {
 				"Content-Type": "application/json",
 			},
