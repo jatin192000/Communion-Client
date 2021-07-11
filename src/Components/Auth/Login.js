@@ -24,37 +24,13 @@ const Login = (props) => {
 					authContext.setUser(user);
 					authContext.setIsAuthenticated(isAuthenticated);
 					props.history.push("/");
-					toast.success("Logged in Successfully", {
-						position: "top-right",
-						autoClose: 5000,
-						hideProgressBar: false,
-						closeOnClick: true,
-						pauseOnHover: true,
-						draggable: true,
-						progress: undefined,
-					});
+					toast.success("Logged in Successfully");
 				} else {
-					toast.error("Invalid Credentials", {
-						position: "top-right",
-						autoClose: 5000,
-						hideProgressBar: false,
-						closeOnClick: true,
-						pauseOnHover: true,
-						draggable: true,
-						progress: undefined,
-					});
+					toast.error("Invalid Credentials");
 				}
 			});
 		} catch (error) {
-			toast.error(error.message, {
-				position: "top-right",
-				autoClose: 5000,
-				hideProgressBar: false,
-				closeOnClick: true,
-				pauseOnHover: true,
-				draggable: true,
-				progress: undefined,
-			});
+			toast.error(error.message);
 		}
 	};
 

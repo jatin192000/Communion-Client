@@ -112,38 +112,41 @@ const Community = (props) => {
 								</div>
 							</div>
 						</div>
-						<>
-							<div className="grid grid-cols-1 justify-items-center">
-								<h4 className="profileInfoName">
-									{community.name}
-								</h4>
-								<span className="font-normal text-gray-600">
-									@{community.username}
+
+						<div className="grid grid-cols-1 justify-items-center">
+							<h4 className="profileInfoName">
+								{community.name}
+							</h4>
+							<span className="font-normal text-gray-600">
+								@{community.username}
+							</span>
+						</div>
+						<div className="grid grid-cols-2 p-3">
+							<div className="grid grid-cols-1">
+								<span className="text-gray-700 ml-3">
+									{community.about}
 								</span>
 							</div>
-							<div className="grid grid-cols-2 p-3">
-								<div className="grid grid-cols-1">
-									<span className="text-gray-700 ml-3">
-										{community.about}
-									</span>
-								</div>
-								<div className="ml-auto grid grid-cols-2 gap-4 mr-4">
-									<span className="text-gray-700 flex">
-										Posts {posts ? posts.length : 0}
-									</span>
-									{followersCount > 0 ? <Link
+							<div className="ml-auto grid grid-cols-2 gap-4 mr-4">
+								<span className="text-gray-700 flex">
+									Posts {posts ? posts.length : 0}
+								</span>
+								{followersCount > 0 ? (
+									<Link
 										to={`/community/${username}/followers`}
 										className="hover:underline"
 									>
 										<span className="text-gray-700">
 											Followers {followersCount}
 										</span>
-									</Link> : <span className="text-gray-700">
-											Followers {followersCount}
-										</span>}
-								</div>
+									</Link>
+								) : (
+									<span className="text-gray-700">
+										Followers {followersCount}
+									</span>
+								)}
 							</div>
-						</>
+						</div>
 					</div>
 				</div>
 			) : (

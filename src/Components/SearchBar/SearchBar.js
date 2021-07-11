@@ -26,11 +26,11 @@ const SearchBar = (props) => {
 	};
 
 	return (
-		<>
+		<div className="col-start-6 col-span-4 px-4 py-0 my-auto">
 			<input
 				name="searchBox"
 				placeholder="Search . . . ."
-				className="col-start-6 col-span-4 px-4 text-center rounded-full text-base font-medium bg-grey-100 border border-gray-500 placeholder-gray-500 focus:outline-none focus:border-gray-400 focus:bg-white"
+				className="py-2 w-full text-center rounded-full text-base font-medium bg-grey-100 border border-gray-500 placeholder-gray-500 focus:outline-none focus:border-gray-400 focus:bg-white"
 				id="searchBox"
 				onChange={onChange}
 			/>
@@ -43,7 +43,7 @@ const SearchBar = (props) => {
 					  })
 					: null}
 			</div>
-		</>
+		</div>
 	);
 };
 

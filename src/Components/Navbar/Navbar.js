@@ -24,7 +24,7 @@ const Navbar = ({ show }) => {
 
 	const unauthenticatedNavBar = () => {
 		return (
-			<>
+			<div>
 				<li>
 					<Link
 						to="/trending"
@@ -59,13 +59,13 @@ const Navbar = ({ show }) => {
 						Register
 					</Link>
 				</li>
-			</>
+			</div>
 		);
 	};
 
 	const authenticatedNavBar = () => {
 		return (
-			<>
+			<div>
 				<li>
 					<Link to="/" className="flex flex-row place-content-center">
 						<BsHouseDoor className="mt-1 mr-1" />
@@ -135,7 +135,7 @@ const Navbar = ({ show }) => {
 						Logout
 					</Link>
 				</li>
-			</>
+			</div>
 		);
 	};
 	return (

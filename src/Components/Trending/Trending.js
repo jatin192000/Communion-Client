@@ -45,6 +45,7 @@ const Trending = () => {
 										? post.community.profilePicture
 										: null
 								}
+								commentsCount={post.comments.length}
 								createdAt={post.createdAt}
 								profilePicture={post.author.profilePicture}
 							/>

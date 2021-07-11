@@ -34,6 +34,9 @@ import SettingsCommunity from "./Components/Settings/Communities";
 import CommunitySettings from "./Components/Settings/CommunitySettings";
 import ChangeModerator from "./Components/Settings/ChangeModerator";
 import ChangeAdmin from "./Components/Settings/ChangeAdmin";
+import Users from "./Components/Admin/Users";
+import AdminCommunities from "./Components/Admin/Communities";
+import Reports from "./Components/Admin/Reports";
 
 function useMediaQuery() {
 	const [screenSize, setScreenSize] = useState([0, 0]);
@@ -195,9 +198,28 @@ function App() {
 						component={EditProfile}
 					/>
 					<PrivateRoute
+						exact
 						path="/admin"
 						roles={["admin"]}
 						component={Admin}
+					/>
+					<PrivateRoute
+						exact
+						path="/admin/users"
+						roles={["admin"]}
+						component={Users}
+					/>
+					<PrivateRoute
+						exact
+						path="/admin/communities"
+						roles={["admin"]}
+						component={AdminCommunities}
+					/>
+					<PrivateRoute
+						exact
+						path="/admin/reports"
+						roles={["admin"]}
+						component={Reports}
 					/>
 				</div>
 			</div>

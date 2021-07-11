@@ -44,7 +44,7 @@ const Follow = (props) => {
 			history.push("/");
 		}
 	};
-	return (
+	return username ? (
 		<div className="follow-bar my-auto">
 			<div className="post-top  grid grid-cols-2">
 				<Link to={`/user/${username}`}>
@@ -68,7 +68,7 @@ const Follow = (props) => {
 				)}
 			</div>
 		</div>
-	);
+	) : null;
 };
 
 export default Follow;

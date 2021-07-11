@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import PostService from "../../Services/PostService";
+import ReportService from "../../Services/ReportService";
 import PostLoader from "../Loaders/PostLoader";
 import { format } from "timeago.js";
 import { AuthContext } from "../../Context/AuthContext";
@@ -20,7 +21,9 @@ const Posts = (props) => {
 	const authContext = useContext(AuthContext);
 	const [isUpvoted, setIsUpvoted] = useState(false);
 	const [isDownvoted, setIsDownvoted] = useState(false);
-
+	const [showModal1, setShowModal1] = useState(false);
+	const [showModal2, setShowModal2] = useState(false);
+	const [reportReason, setReportReason] = useState();
 	useEffect(() => {
 		PostService.getPost(postId).then((data) => {
 			if (data.success) {
@@ -49,6 +52,15 @@ const Posts = (props) => {
 			window.location.reload();
 		} else {
 			toast.error("Could not delete post");
+		}
+	};
+	const postReport = async () => {
+		const res = await ReportService.report(props.id, "post", reportReason);
+		if (res.success) {
+			toast.success("Post Reported Successfully");
+			window.location.reload();
+		} else {
+			toast.error("Could not report post");
 		}
 	};
 	const postUpvote = () => {
@@ -99,7 +111,7 @@ const Posts = (props) => {
 				<div className="post-bar">
 					<div className="post-top">
 						{posts.community ? (
-							<>
+							<div>
 								<Link
 									to={`/community/${posts.community.username}`}
 								>
@@ -124,21 +136,19 @@ const Posts = (props) => {
 										</p>
 									</Link>
 								</div>
-							</>
+							</div>
 						) : (
-							<>
-								<Link to={`/user/${posts.author.username}`}>
-									<img
-										src={`/Images/${posts.author.profilePicture}`}
-										className="post-image"
-										alt="profile-pic"
-									/>
-									<div className="post-username">
-										<h3>{posts.author.username}</h3>
-										<span>{format(posts.createdAt)}</span>
-									</div>
-								</Link>
-							</>
+							<Link to={`/user/${posts.author.username}`}>
+								<img
+									src={`/Images/${posts.author.profilePicture}`}
+									className="post-image"
+									alt="profile-pic"
+								/>
+								<div className="post-username">
+									<h3>{posts.author.username}</h3>
+									<span>{format(posts.createdAt)}</span>
+								</div>
+							</Link>
 						)}
 					</div>
 					<div className="post-content">
@@ -192,31 +202,41 @@ const Posts = (props) => {
 									<img
 										className="delete-icon ml-5"
 										src={`${PF}delete.svg`}
-										onClick={postDelete}
+										onClick={() =>
+											setShowModal1(!showModal1)
+										}
 										alt="delete"
 									/>
 								</li>
 							) : null}
+							<li>
+								<img
+									className="post-icon ml-5 toggle-button"
+									src={`${PF}report.svg`}
+									alt="report icon"
+									onClick={() => setShowModal2(!showModal2)}
+								/>
+							</li>
 						</ul>
 					</div>
 				</div>
 			) : (
 				<PostLoader />
 			)}
-			<div className="grid grid-cols-5 mb-5">
+			<div className="grid grid-cols-1 md:grid-cols-6 mb-5 gap-4">
 				<textarea
-					className="col-span-4 h-50 resize-y p-4 rounded-lg font-medium bg-white-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+					className="md:col-span-5 h-50 resize-y p-4 rounded-lg font-medium bg-white-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
 					name="comment"
 					type="textbox"
 					placeholder="Comment"
 					onChange={(e) => setComment(e.target.value)}
 					required
 				/>
-				<div className="mx-auto my-auto">
+				<div className="m-auto">
 					<button
 						type="submit"
 						onClick={onComment}
-						className="tracking-wide font-semibold bg-yellow-500 text-black p-4 rounded-lg flex items-center justify-center focus:outline-none focus:border-gray-400 focus:bg-white"
+						className="tracking-wide w-full font-semibold bg-yellow-500 text-black p-4 rounded-lg flex items-center justify-center focus:outline-none focus:border-gray-400 focus:bg-white"
 					>
 						<span>Comment</span>
 					</button>
@@ -250,6 +270,57 @@ const Posts = (props) => {
 				) : (
 					<PostLoader />
 				)}
+			</div>
+			<div className={showModal1 ? "modal active" : "modal"}>
+				<h2 className="font-medium text-lg text-center">
+					Delete Post ?
+				</h2>
+				<p className="text-center px-5 py-2">
+					Are you sure you want to delete this post because after this
+					action you won't be able to recover it.
+				</p>
+				<div className="grid grid-cols-2">
+					<button
+						onClick={() => setShowModal1(!showModal1)}
+						className="px-6 py-2 cursor-pointer text-center text-xs rounded-full bg-gray-100 text-base font-normal tracking-wide placeholder-gray-500 focus:outline-none focus:border-gray-400 focus:bg-white hover:bg-gray-200 m-2"
+					>
+						Close
+					</button>
+					<button
+						onClick={postDelete}
+						className="px-6 py-2 cursor-pointer text-center text-xs rounded-full text-base font-normal tracking-wide bg-red-600 text-white placeholder-gray-500 focus:outline-none focus:border-gray-400 focus:bg-white hover:bg-red-700 m-2"
+					>
+						Delete
+					</button>
+				</div>
+			</div>
+			<div className={showModal2 ? "modal active" : "modal"}>
+				<h2 className="font-medium text-center">Report Post</h2>
+				<p className="text-center">This is going to report the post</p>
+				<div className="grid grid-cols-1">
+					<input
+						className="w-full px-2 py-2 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white m-2"
+						type="text"
+						name="reportReason"
+						placeholder="Give reason for reporting this post"
+						onChange={(e) => setReportReason(e.target.value)}
+						required
+					/>
+					<div className="grid grid-cols-2">
+						<button
+							onClick={() => setShowModal2(!showModal2)}
+							className="px-6 py-2 cursor-pointer text-center text-xs rounded-full bg-gray-100 text-base font-normal tracking-wide placeholder-gray-500 focus:outline-none focus:border-gray-400 focus:bg-white hover:bg-gray-200 m-2"
+						>
+							Close
+						</button>
+						<button
+							onClick={postReport}
+							className="px-6 py-2 cursor-pointer text-center text-xs rounded-full text-base font-normal tracking-wide bg-red-600 text-white placeholder-gray-500 focus:outline-none focus:border-gray-400 focus:bg-white hover:bg-red-700 m-2"
+						>
+							Report
+						</button>
+					</div>
+				</div>
 			</div>
 		</div>
 	);

@@ -15,49 +15,17 @@ const ForgotPassword = () => {
 				AuthService.forgotpassword(JSON.stringify({ email })).then(
 					(data) => {
 						if (data.success) {
-							toast.success(data.message, {
-								position: "top-right",
-								autoClose: 5000,
-								hideProgressBar: false,
-								closeOnClick: true,
-								pauseOnHover: true,
-								draggable: true,
-								progress: undefined,
-							});
+							toast.success(data.message);
 						} else {
-							toast.error(data.message, {
-								position: "top-right",
-								autoClose: 5000,
-								hideProgressBar: false,
-								closeOnClick: true,
-								pauseOnHover: true,
-								draggable: true,
-								progress: undefined,
-							});
+							toast.error(data.message);
 						}
 					}
 				);
 			} catch (error) {
-				toast.error(error.message, {
-					position: "top-right",
-					autoClose: 5000,
-					hideProgressBar: false,
-					closeOnClick: true,
-					pauseOnHover: true,
-					draggable: true,
-					progress: undefined,
-				});
+				toast.error(error.message);
 			}
 		} else {
-			toast.error("Not a valid email", {
-				position: "top-right",
-				autoClose: 5000,
-				hideProgressBar: false,
-				closeOnClick: true,
-				pauseOnHover: true,
-				draggable: true,
-				progress: undefined,
-			});
+			toast.error("Not a valid email");
 		}
 	};
 

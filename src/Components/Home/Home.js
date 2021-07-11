@@ -5,18 +5,23 @@ import PostService from "../../Services/PostService";
 import PostLoader from "../Loaders/PostLoader";
 
 const Home = () => {
-	const [posts, setPosts] = useState(null);
+	const [posts, setPosts] = useState([]);
+	const [isLoading, setIsLoading] = useState(true);
 	useEffect(() => {
 		PostService.getTimelinePosts().then((data) => {
-			setPosts(data.posts);
+			if (data.success) {
+				setPosts(data.posts);
+				setIsLoading(false);
+			}
 		});
 	}, []);
 
-	if (posts) {
+	if (isLoading) {
 		posts.sort((p1, p2) => {
 			return new Date(p2.createdAt) - new Date(p1.createdAt);
 		});
 	}
+
 	return (
 		<div className="grid grid-cols-1 gap-6 flex">
 			<Link to="/createPost">
@@ -24,10 +29,10 @@ const Home = () => {
 					<span className="mx-auto uppercase">Create Post</span>
 				</button>
 			</Link>
-			{posts ? (
+			{!isLoading ? (
 				posts.length > 0 ? (
 					posts.map((post) => {
-						return (
+						return post.author ? (
 							<PostItem
 								key={post._id}
 								title={post.title}
@@ -36,6 +41,7 @@ const Home = () => {
 								upvotes={post.upvotes}
 								downvotes={post.downvotes}
 								author={post.author.username}
+								commentsCount={post.comments.length}
 								community={
 									post.community
 										? post.community.username
@@ -49,7 +55,7 @@ const Home = () => {
 								createdAt={post.createdAt}
 								profilePicture={post.author.profilePicture}
 							/>
-						);
+						) : null;
 					})
 				) : (
 					<p className="m-auto mt-10 text-xl uppercase">

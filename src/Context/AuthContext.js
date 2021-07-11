@@ -25,7 +25,7 @@ export default ({ children }) => {
 	}, []);
 
 	return (
-		<>
+		<div>
 			{!isLoaded ? (
 				<ThreeDots />
 			) : (
@@ -40,6 +40,6 @@ export default ({ children }) => {
 					{children}
 				</AuthContext.Provider>
 			)}
-		</>
+		</div>
 	);
 };

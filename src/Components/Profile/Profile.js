@@ -12,7 +12,6 @@ import ProfileLoader from "../Loaders/ProfileLoader";
 const PF = "/Images/";
 
 const Profile = (props) => {
-	
 	const [user, setUser] = useState(null);
 	const username = useParams().username;
 	const [posts, setPosts] = useState(null);
@@ -127,7 +126,7 @@ const Profile = (props) => {
 								</span>
 								<span className="flex text-gray-700">
 									{user.location ? (
-										<>
+										<div>
 											<svg
 												viewBox="0 0 24 24"
 												aria-hidden="true"
@@ -139,7 +138,7 @@ const Profile = (props) => {
 												</g>
 											</svg>
 											<span>{user.location}</span>
-										</>
+										</div>
 									) : null}
 									{user.website ? (
 										<a href={`https://${user.website}`}>
