@@ -171,13 +171,13 @@ const EditCommunity = (props) => {
 								type="file"
 								name="coverUpload"
 								className="profileUpload"
-								accept=".png, .jpg, .jpeg"
+								accept=".png, .jpg, .jpeg, .svg"
 								onChange={handleCoverPic}
 								ref={hiddenCoverInput}
 							/>
 							<img
 								src={PF + coverPic}
-								className="coverBtn  col-span-2"
+								className="coverBtn col-span-2"
 								alt="uploader"
 								onClick={onInvisibleCoverInput}
 							/>
@@ -194,7 +194,7 @@ const EditCommunity = (props) => {
 								type="file"
 								name="profileUpload"
 								className="profileUpload"
-								accept=".png, .jpg, .jpeg"
+								accept=".png, .jpg, .jpeg, .svg"
 								onChange={handleProfilePic}
 								ref={hiddenProfileInput}
 							/>

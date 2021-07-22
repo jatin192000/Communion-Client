@@ -24,25 +24,18 @@ const ReportsList = (props) => {
 	};
 
 	return (
-		<div className="follow-bar my-auto">
+		<Link to={`/report/${props.id}`} className="follow-bar my-auto">
 			<ToastContainer />
-			<div className="post-top grid grid-cols-4">
-				<Link to={`/report/${props.for_id}`}>
-					<div className="post-username mt-2">
-						<h3>{props.for}</h3>
-					</div>
-				</Link>
-				<div className="post-username my-auto">
-					<h3>{props.reason}</h3>
-				</div>
-				<div className="post-username my-auto">
-					<h3>{createDate}</h3>
-				</div>
+			<div className="post-top grid grid-cols-6 text-sm md:text-base font-medium">
+				<h3 className="text-center my-auto capitalize">{props.for}</h3>
+				<h3 className="text-center my-auto">{props.author.length}</h3>
+				<h3 className="text-center col-span-2 my-auto">{props.id}</h3>
+				<h3 className="text-center my-auto">{createDate}</h3>
 				<button
 					className={
 						props.status === "solved"
-							? "px-2 py-2 cursor-pointer text-center rounded-full bg-green-200 border border-green-400 font-medium placeholder-green-500 focus:outline-none focus:border-green-400 focus:bg-white hover:bg-green-200 capitalize "
-							: "px-2 py-2 cursor-pointer text-center rounded-full bg-red-200 border border-red-400 font-medium placeholder-red-500 focus:outline-none focus:border-red-400 focus:bg-white hover:bg-red-200 capitalize "
+							? "mx-auto px-2 py-2 cursor-pointer w-full md:w-1/2 text-center rounded-full bg-green-200 border border-green-400 font-medium placeholder-green-500 focus:outline-none focus:border-green-400 focus:bg-white hover:bg-green-200 capitalize "
+							: "mx-auto px-2 py-2 cursor-pointer w-full md:w-1/2 text-center rounded-full bg-red-200 border border-red-400 font-medium placeholder-red-500 focus:outline-none focus:border-red-400 focus:bg-white hover:bg-red-200 capitalize "
 					}
 					onClick={() => setShowModal1(!showModal1)}
 				>
@@ -75,7 +68,7 @@ const ReportsList = (props) => {
 					</button>
 				</div>
 			</div>
-		</div>
+		</Link>
 	);
 };
 

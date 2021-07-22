@@ -37,6 +37,7 @@ import ChangeAdmin from "./Components/Settings/ChangeAdmin";
 import Users from "./Components/Admin/Users";
 import AdminCommunities from "./Components/Admin/Communities";
 import Reports from "./Components/Admin/Reports";
+import Report from "./Components/Admin/Report";
 
 function useMediaQuery() {
 	const [screenSize, setScreenSize] = useState([0, 0]);
@@ -220,6 +221,12 @@ function App() {
 						path="/admin/reports"
 						roles={["admin"]}
 						component={Reports}
+					/>
+					<PrivateRoute
+						exact
+						path="/report/:id"
+						roles={["admin"]}
+						component={Report}
 					/>
 				</div>
 			</div>

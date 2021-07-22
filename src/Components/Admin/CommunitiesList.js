@@ -23,7 +23,7 @@ const CommunitiesList = (props) => {
 	return (
 		<div className="follow-bar my-auto">
 			<ToastContainer />
-			<div className="post-top grid grid-cols-6 flex justify-center">
+			<div className="post-top grid grid-cols-6 text-sm md:text-base font-medium">
 				<Link to={`/community/${props.username}`}>
 					<img
 						src={`/Images/${props.profilePicture}`}

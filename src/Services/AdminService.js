@@ -15,6 +15,11 @@ export default {
 			return res.json().then((data) => data);
 		});
 	},
+	getReport: async (id) => {
+		return await fetch(`/admin/report/${id}`).then((res) => {
+			return res.json().then((data) => data);
+		});
+	},
 	deleteUser: async (id) => {
 		return await fetch(`/user/delete/${id}`, {
 			method: "delete",

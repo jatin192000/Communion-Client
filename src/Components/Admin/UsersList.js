@@ -40,7 +40,7 @@ const UsersList = (props) => {
 	return (
 		<div className="follow-bar my-auto">
 			<ToastContainer />
-			<div className="post-top grid grid-cols-12">
+			<div className="post-top grid grid-cols-12 text-sm md:text-base font-medium">
 				<Link to={`/user/${props.username}`} className="col-span-3">
 					<img
 						src={`/Images/${props.profile}`}
@@ -54,17 +54,17 @@ const UsersList = (props) => {
 				<div className="post-username col-span-4 my-auto">
 					<h3>{props.email}</h3>
 				</div>
-				<div className="post-username col-span-3  my-auto">
+				<div className="post-username col-span-2  my-auto">
 					<h3>{createDate}</h3>
 				</div>
 				<button
-					className="px-2 py-2 cursor-pointer text-center rounded-full bg-gray-100 border border-gray-200 font-medium placeholder-gray-500 focus:outline-none focus:border-gray-400 focus:bg-white hover:bg-gray-200 capitalize "
+					className="col-span-2 ml-8 px-2 py-2 cursor-pointer text-center rounded-full bg-gray-100 border border-gray-200 font-medium placeholder-gray-500 focus:outline-none focus:border-gray-400 focus:bg-white hover:bg-gray-200 capitalize "
 					onClick={() => setShowModal2(!showModal2)}
 				>
 					{props.role}
 				</button>
 				<img
-					className="delete-icon m-auto"
+					className="delete-icon my-auto ml-8"
 					src={`${PF}delete.svg`}
 					onClick={() => setShowModal1(!showModal1)}
 					alt="delete icon"

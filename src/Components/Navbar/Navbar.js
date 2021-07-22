@@ -10,14 +10,14 @@ import { IoSettingsOutline } from "react-icons/io5";
 import "./Navbar.css";
 
 const Navbar = ({ show }) => {
-	const { isAuthenticated, user, setUser, setIsAuthenticated } =
-		useContext(AuthContext);
+	const { isAuthenticated, user } = useContext(AuthContext);
 
 	const onClickLogoutHandler = () => {
 		AuthService.logout().then((data) => {
 			if (data.success) {
-				setUser(data.user);
-				setIsAuthenticated(false);
+				// setUser(data.user);
+				// setIsAuthenticated(false);
+				window.location.reload();
 			}
 		});
 	};
@@ -129,6 +129,7 @@ const Navbar = ({ show }) => {
 				</li>
 				<li>
 					<Link
+						to="/login"
 						onClick={onClickLogoutHandler}
 						className="flex flex-row place-content-center"
 					>

@@ -25,11 +25,15 @@ const Communities = (props) => {
 					<span className="uppercase">Create Community</span>
 				</button>
 			</Link>
-			{communities
-				? communities.map((v1) => {
-						return <CommunityList key={v1} id={v1} />;
-				  })
-				: null}
+			{communities ? (
+				communities.map((v1) => {
+					return <CommunityList key={v1} id={v1} />;
+				})
+			) : (
+				<p className="m-auto mt-10 text-xl uppercase">
+					No Communities Yet
+				</p>
+			)}
 		</div>
 	);
 };

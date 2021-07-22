@@ -17,8 +17,9 @@ const TopCommunities = (props) => {
 	}
 	return (
 		<div className="grid grid-cols-1">
-			{communities
-				? communities.map((v1) => {
+			{communities ? (
+				communities.length ? (
+					communities.map((v1) => {
 						return (
 							<Top
 								key={v1._id}
@@ -28,8 +29,13 @@ const TopCommunities = (props) => {
 								followers={v1.followers.length}
 							/>
 						);
-				  })
-				: null}
+					})
+				) : (
+					<p className="m-auto mt-10 text-xl uppercase">
+						No Communities Yet
+					</p>
+				)
+			) : null}
 		</div>
 	);
 };

@@ -46,7 +46,7 @@ const Posts = (props) => {
 	}, [authContext.user._id, postId, props.history]);
 
 	const postDelete = async () => {
-		const res = await PostService.deletePost(props.id);
+		const res = await PostService.deletePost(postId);
 		if (res.success) {
 			toast.success("Post Deleted Successfully");
 			window.location.reload();
@@ -55,7 +55,7 @@ const Posts = (props) => {
 		}
 	};
 	const postReport = async () => {
-		const res = await ReportService.report(props.id, "post", reportReason);
+		const res = await ReportService.report(postId, "post", reportReason);
 		if (res.success) {
 			toast.success("Post Reported Successfully");
 			window.location.reload();
@@ -299,7 +299,7 @@ const Posts = (props) => {
 				<p className="text-center">This is going to report the post</p>
 				<div className="grid grid-cols-1">
 					<input
-						className="w-full px-2 py-2 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white m-2"
+						className="w-full px-2 py-2 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-2"
 						type="text"
 						name="reportReason"
 						placeholder="Give reason for reporting this post"
